@@ -1,58 +1,77 @@
 "use strict"
-const numHorses = 5
-let horses=[]  //an array of horse elements
-let horseX=[]  //an array containing the pixel position of every horse
-let colors=["red","blue","orange","Cyan","magenta","yellow","Black","turquoise","gray","lilac","white"]
 
-function startRace () {
-    setInterval (move, 50)
+class Horse{
+
+    element //This is the DIV (or image) for the horse
+    x       //this is the X posiion of the horse  
+
+    constructor(element,y,color){
+        
+        element.style.top = y + "px"      //Set the vertical position of this horses element
+        element.style.backgroundColor=color  //sete the colour .. from the array of colours we created earlier                
+        element.classList.add("horse")
+        document.body.appendChild(element)       //The DIV element we created, MUST be added to the document
+        
+        this.element=element        
+        this.x=0
+        
+    }
+
+    move(){
+        this.element.style.left=this.x +"px"    //set the horizonatal position
+        this.x += Math.floor(Math.random()*10)  //moves 'this' horse some randome amount
+    }
+
+    checkForWin(){        
+        if(this.x >=finish){
+            alert(`$(colors[h]} horse wins`)
+            resetRace();
+        }            
+    }
+
+    reset(){
+        this.x=0
+    }
+
+}
+
+const numHorses = 5
+let horses=[] //Horses 
+
+
+
+let colors=["red","blue","orange","cyan","magneta","yellow","black","turqoise","grey","lilac","white"]
+
+function startRace(){
+    setInterval(moveHorses,50)
+}
+
+function setupHorses(){
+    for(let h=0;h<numHorses;h++){
+        horses.push (new Horse(document.createElement("div"), 50 + h*45,colors[h]))        
+    }
 }
 
 
-for(let h=0;h<numHorses;h++){
-    horses[h] = document.createElement("div")    
-    horses[h].classList.add("horse")
-    horses[h].style.top = 50 + h*45 + "px" 
-    horses[h].style.backgroundColor=colors[h]  
-    horseX[h]=0 
-    document.body.appendChild(horses[h]) 
 const finish=500
 
-function move(){    
-    for(let h=0;h<numHorses;h++){ 
-        horses[h].style.left=horseX[h] +"px"  
-        horseX[h] += Math.floor(Math.random()*10) 
-        if(horseX[h] >=finish){alert( ` ${colors[h]}  horse wins`);resetRace();}  
-    } 
+function moveHorses(){
+    for(let h=0;h<numHorses;h++){
+
+        let horse=horses[h]        
+        horse.move()
+        horse.checkForWin()
+    }
 }
 
-function resetRace () {
-for(let h=0; h<numHorses;h++){
-    horseX [h]= 0
+
+
+function resetRace(){
+    for(let h=0;h<numHorses;h++){        
+        horse[h].reset()
+    }
 }
 
-}
-plainText="HELLO"
-function encode(plainText){
 
-    for(let i=0;i<plainText.length; i++)
-    let encode = plainText[i];
-    
 
-    //for an input string 'text' .. return an enciphered version (ceasar cipher)
-    // a->b    b->c .... z->a
-    // for example Hello  - > Ifmmp
-    
-    //string.charCodeAt()
-    //String.fromChar()
-
-    //Fill this gap
-
-    return encodedMessage
-
-}
-
-function decode(encodedText){
-
-    //fill this gap
-}}
+setupHorses()  //Invoke setup horses
